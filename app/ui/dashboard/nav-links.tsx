@@ -4,6 +4,7 @@ import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  BellAlertIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,6 +20,11 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+  {
+    name: 'PlayO Game Tracker',
+    href: '/dashboard/playo-tracker',
+    icon: BellAlertIcon,
+  },
 ];
 
 export default function NavLinks() {

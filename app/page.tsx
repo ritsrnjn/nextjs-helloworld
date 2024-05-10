@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
 
-import { fetchHelloWorld } from '@/app/lib/datafromflask';
+import { fetchHelloWorld, fetchPlayoTracker } from '@/app/lib/datafromflask';
 import { useEffect, useState } from 'react';
 
 export default function Page() {
@@ -14,7 +14,7 @@ export default function Page() {
   } | null>(null);
 
   useEffect(() => {
-    fetchHelloWorld()
+    fetchPlayoTracker()
       .then((data) => setDataFromFlask(data))
       .catch((err) => console.log(err));
   }, []);
