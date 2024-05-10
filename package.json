@@ -1,12 +1,15 @@
 {
   "private": true,
   "scripts": {
+    "flask-dev": "FLASK_DEBUG=1 pip install -r requirements.txt && python3 -m flask --app api/index run -p 5328",
+    "next-dev": "next dev",
     "build": "next build",
-    "dev": "next dev",
+    "dev": "concurrently \"npm run next-dev\" \"npm run flask-dev\"",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start",
-    "seed": "node -r dotenv/config ./scripts/seed.js"
+    "seed": "node -r dotenv/config ./scripts/seed.js",
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -29,6 +32,7 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.14",
     "@vercel/style-guide": "^5.0.1",
+    "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
     "eslint": "^8.52.0",
     "eslint-config-next": "^14.0.0",
