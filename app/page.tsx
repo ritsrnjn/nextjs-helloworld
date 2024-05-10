@@ -5,26 +5,13 @@ import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
 
-import { fetchHelloWorld, fetchPlayoTracker } from '@/app/lib/datafromflask';
-import { useEffect, useState } from 'react';
-
 export default function Page() {
-  const [dataFromFlask, setDataFromFlask] = useState<{
-    message: string;
-  } | null>(null);
-
-  useEffect(() => {
-    fetchPlayoTracker()
-      .then((data) => setDataFromFlask(data))
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div
         className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
       >
-        <p>hello {dataFromFlask ? dataFromFlask.message : 'loading...'}</p>
       </div>
 
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
