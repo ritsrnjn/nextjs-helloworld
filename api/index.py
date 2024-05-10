@@ -10,4 +10,4 @@ CORS(app)
 def hello_world():
     print("Request received!")
     # return json response
-    return jsonify({"message": "Hello Flask!"})
+    return jsonify({"message": "Hello Ritesh!"})
