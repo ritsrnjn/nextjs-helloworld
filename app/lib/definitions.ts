@@ -86,3 +86,9 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type GamesToBeTracked = {
+  url: string;
+  user_id: string;
+  email_id: string;
+};

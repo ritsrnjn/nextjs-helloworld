@@ -1,41 +1,71 @@
-import { Card } from '@/app/ui/dashboard/cards';
-import RevenueChart from '@/app/ui/dashboard/revenue-chart';
-import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
+'use client';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchRevenue, fetchLatestInvoices, fetchCardData } from '@/app/lib/data';
-import { fetchNumberOfPlayersInPlayOGame } from '@/app/lib/scrapper';
+// import { fetchNumberOfPlayersInPlayOGame } from '@/app/lib/scrapper';
+import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
+import axios from 'axios';
+import { saveGamesToBeTracked, getGamesToBeTracked } from '@/app/lib/data';
 
-export default async function Page() {
-    const revenue = await fetchRevenue();
-    const latestInvoices = await fetchLatestInvoices();
-    const {
-        numberOfInvoices,
-        numberOfCustomers,
-        totalPaidInvoices,
-        totalPendingInvoices,
-    } = await fetchCardData();
+export default function Page() {
+    const [gameUrl, setGameUrl] = useState('');
+    const [email, setEmail] = useState('');
 
-    const helloWorld3 = await fetchNumberOfPlayersInPlayOGame();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log('Data saved successfully.');
+        try {
+            const data = await saveGamesToBeTracked(gameUrl, email);
+            console.log('Data saved successfully.');
+            alert('Data saved.');
+        } catch (error) {
+            console.error('Error saving data:', error);
+            alert('Error saving data.');
+        }
+    };
+
+    const { pending } = useFormStatus();
 
     return (
-        <main>
+        <form onSubmit={handleSubmit} method="POST">
             <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-                Dashboard
+                PlayO Tracker
             </h1>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <Card title="Collected" value={helloWorld3 ? helloWorld3 : 'Not Available!'} type="collected" />
-                <Card title="Pending" value={totalPendingInvoices} type="pending" />
-                <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-                <Card
-                    title="Total Customers"
-                    value={numberOfCustomers}
-                    type="customers"
-                />
+            <h2 className="mb-4 text-lg">
+                Track the number of players in a PlayO game.
+            </h2>
+            <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Game URL:
+                    <input
+                        type="url"
+                        value={gameUrl}
+                        onChange={(e) => setGameUrl(e.target.value)}
+                        required
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                </label>
             </div>
-            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-                <RevenueChart revenue={revenue} />
-                <LatestInvoices latestInvoices={latestInvoices} />
+            <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Email:
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                </label>
             </div>
-        </main>
+
+            <button
+                type="submit"
+                aria-disabled={pending}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Start Tracking this Game
+            </button>
+
+        </form>
     );
 }
